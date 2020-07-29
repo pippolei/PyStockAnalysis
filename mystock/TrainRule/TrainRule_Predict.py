@@ -15,8 +15,7 @@ import math
 from dateutil.relativedelta import relativedelta
 
 
-
-os.chdir("C:/StockAnalysis/py")
+os.chdir("C:/mystock/py")
 pd.set_option('display.max_columns', None)
 
 
@@ -32,10 +31,13 @@ intdate_min = ruleitem["date"].min()
 curyear = math.floor(intdate_min / 10000)
 curmonth = math.floor(intdate_min / 100) - 100 * curyear
 #初始化将trains数据往前移一个月， 这在下面的循环里第一次加回一个月
-date_train = datetime.date(curyear, curmonth, 1) + relativedelta(months=-1) 
-date_test = date_train + relativedelta(months=+15) 
-date_vali = date_train + relativedelta(months=+18) 
-date_to = date_train + relativedelta(months=+19) 
+date_to = datetime.date.today()
+date_train = date_to + relativedelta(months=-20) 
+date_test = date_to + relativedelta(months=-5) 
+date_vali = date_to + relativedelta(months=-2) 
+date_end = date_to + datetime.timedelta(days=-1)
+
+
 
 while True:    
     date_train = date_train + relativedelta(months=1)
@@ -44,23 +46,20 @@ while True:
     date_to = date_to + relativedelta(months=1) 
     #(date_train,date_test,date_vali,date_to)
     if date_vali > date_end: break
-    model, validata, valiresult = modellib.GetModel(ruleitem,date_train,date_test,date_vali,date_to,colname)
+    model, validata = modellib.GetModel(ruleitem,date_train,date_test,date_vali,date_to,colname)
     if (model is None):
         continue
-    prediction = model.predict_proba(validata[colname])
-    y_pred = pd.DataFrame(prediction).iloc[:,1]
-    validata.reset_index(inplace=True)
-    validata["pregrade"] = y_pred
-    validata["grade"] = y_pred
-    select = y_pred > 0.50
-    export = validata.loc[select.to_numpy(),ori_column]
-    
-    frame = [savevalue, export]
-    savevalue = pd.concat(frame, axis = 0)
-    
 
 
+y_pred = pd.DataFrame(model.predict_proba(validata[colname])).iloc[:,1]
+validata.reset_index(inplace=True)
+validata["pregrade"] = y_pred
+validata["grade"] = y_pred
+select = y_pred > 0.49
+export = validata.loc[select.to_numpy(),ori_column]
+savevalue = ruleitem.loc[select.to_numpy(),ori_column]
 savevalue['type'] = '2'
-savevalue.iloc[1:,:].to_csv("c:/StockAnalysis/log/ml_rule.txt", index = False, sep = '\t', header = False)
+savevalue.to_csv("C:/mystock/log/ml_rule.txt", index = False, sep = '\t', header = False)
+
 print("done")
  

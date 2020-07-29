@@ -9,7 +9,7 @@ pd.set_option('display.max_columns', None)
 pd.options.mode.chained_assignment = None 
 
 
-os.chdir("C:/StockAnalysis/py")
+os.chdir("C:/mystock/py")
 stockitem = pd.read_csv("stock_item.csv", sep = ",", index_col=False)
 stockfull = pd.read_csv("stock_full.csv", sep = ",", index_col=False)
 

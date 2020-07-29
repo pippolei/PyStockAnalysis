@@ -14,7 +14,7 @@ from sklearn.metrics import accuracy_score
 import math
 from dateutil.relativedelta import relativedelta
 from sklearn.model_selection import GridSearchCV
-os.chdir("C:/StockAnalysis/py")
+os.chdir("C:/mystock/py")
 pd.set_option('display.max_columns', None)
 
 

@@ -6,7 +6,7 @@ from matplotlib.pylab import date2num
 import pandas as pd
 import tushare as ts
 
-os.chdir("C:/StockAnalysis/TuShare")
+os.chdir("C:/mystock/TuShare")
 pd.set_option('display.max_columns', None)
 pro = ts.pro_api("28cacf3fd08f2da30fadedec0e2e550c2a7ed2d907d3b79547d0e293");
 

@@ -12,7 +12,7 @@ from lib import StockAttr as sa
 from lib import predict as pre
 
 
-os.chdir("C:/StockAnalysis/TuShare")
+os.chdir("C:/mystock/TuShare")
 pd.set_option('display.max_columns', None)
 df = pd.read_csv("sh000001.csv", index_col = False)
 df.sort_values(['date'], ascending = True, inplace = True)  #∞¥’’»’∆⁄≈≈–Ú

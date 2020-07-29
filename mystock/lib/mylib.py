@@ -8,6 +8,10 @@ import datetime
 from sklearn.preprocessing import OneHotEncoder 
 from sklearn.preprocessing import LabelEncoder
 
+
+
+rootDir = "C:/mystock/py"
+
 def GetShiftColumn(datacolumn, day):
     name = datacolumn.name + "_shift" + str(day)
     newcolumn = datacolumn.shift(day)

@@ -16,8 +16,8 @@ pd.options.mode.chained_assignment = None
 sys.path.append("C:/git/PyAnalysis")
 import lib.stockdatalib as datalib
 
-importfile_path = "C:/StockAnalysis/sample"
-filedir = "C:/StockAnalysis/py/"
+importfile_path = "C:/mystock/sample"
+filedir = "C:/mystock/py/"
 for root, dirs, files in os.walk(filedir):
     for file in files:
         if 'stock_full_py_' in os.path.splitext(file)[0]:
@@ -52,12 +52,12 @@ for filename in files:
     if curfile % 100 == 0:
         print ("Data Collection")
         gc.collect()
-        df.to_csv("C:/StockAnalysis/py/stock_full_py_" + str(curfile) + ".csv", index = False)
+        df.to_csv("C:/mystock/py/stock_full_py_" + str(curfile) + ".csv", index = False)
         df = pd.DataFrame()
 
 
 
-df.to_csv("C:/StockAnalysis/py/stock_full_py_last.csv", index = False)
+df.to_csv("C:/mystock/py/stock_full_py_last.csv", index = False)
 print("export done, start to merge")
 
 df = pd.DataFrame()
@@ -73,7 +73,7 @@ for root, dirs, files in os.walk(filedir):
 cols = list(df)
 cols.insert(0, cols.pop(cols.index("code")))    
 df = df.loc[:,cols]       
-df.to_csv("C:/StockAnalysis/py/stock_full_py.csv", index = False)     
+df.to_csv("C:/mystock/py/stock_full_py.csv", index = False)     
 print("completed!!!")
 print (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
