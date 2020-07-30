@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 
 
 
-rootDir = "C:/mystock/py"
+rootDir = "C:/StockAnalysis/py"
 
 def GetShiftColumn(datacolumn, day):
     name = datacolumn.name + "_shift" + str(day)

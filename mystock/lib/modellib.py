@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import talib
 import datetime, time
-from lib import mylib
 import xgboost as xgb
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
