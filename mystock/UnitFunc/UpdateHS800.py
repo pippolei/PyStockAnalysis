@@ -48,5 +48,5 @@ for code in stocklist:
     count+=1
     filename = getMarketCode(code)
     print("Times:" + str(count))
-    mycopyfile(rootdir + "live/" + filename,rootdir + "hs800/" + filename)
+    mycopyfile(rootdir + "live/" + filename,rootdir + "live2/" + filename)
     
