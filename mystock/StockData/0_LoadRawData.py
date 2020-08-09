@@ -13,20 +13,24 @@ pd.set_option('display.max_columns', None)
 pd.options.mode.chained_assignment = None 
 
 
-sys.path.append("C:/git/PyAnalysis")
-import lib.stockdatalib as datalib
+sys.path.append("C:/git/PyStockAnalysis/mystock/")
+from lib.stockdatalib import *
 
-importfile_path = "C:/mystock/sample"
-filedir = "C:/mystock/py/"
+importfile_path = "C:/StockAnalysis/train2"
+filedir = "C:/StockAnalysis/py/" 
+
+#待比较的文件列明
+stockfull = pd.read_csv(filedir + "stock_full.csv", sep = ",", nrows = 10, index_col=False)
+
 for root, dirs, files in os.walk(filedir):
     for file in files:
         if 'stock_full_py_' in os.path.splitext(file)[0]:
             os.remove(filedir+file)
 
 os.chdir(importfile_path)
+#通过循环files会储存所有的文件名
 for root, dirs, files in os.walk(importfile_path):
     pass
-
 
 
 
@@ -44,20 +48,20 @@ for filename in files:
     stockitem["code"] = "s" + filename[3:9]
     stockitem["date"] = stockitem["date"].apply(lambda x: x[0:4]+x[5:7]+x[8:10]).astype(int)
     stockitem = stockitem[(stockitem["high"]>=0.3) & (stockitem["volume"]>=100)]
-    if (datalib.validStock(stockitem)):        
-        frame = [df, datalib.getStockFull(stockitem)]
+    if (validStock(stockitem)):        
+        frame = [df, getStockFull(stockitem)]
         df = pd.concat(frame, axis = 0) 
     endtime = datetime.datetime.now()
-    print (endtime.strftime("%Y-%m-%d %H:%M:%S") + ":  " + "s" + filename[3:9] + "  " + str(curfile) + "/" + str(length) + "-- Time passed" + str((endtime - starttime).total_seconds()))
+    print (endtime.strftime("%Y-%m-%d %H:%M:%S") + ":  " + "s" + filename[3:9] + "  " + str(curfile) + "/" + str(length) + "-- Time passed " + str((endtime - starttime).total_seconds()))
     if curfile % 100 == 0:
         print ("Data Collection")
         gc.collect()
-        df.to_csv("C:/mystock/py/stock_full_py_" + str(curfile) + ".csv", index = False)
+        df.to_csv(filedir + "stock_full_py_" + str(curfile) + ".csv", index = False)
         df = pd.DataFrame()
 
 
 
-df.to_csv("C:/mystock/py/stock_full_py_last.csv", index = False)
+df.to_csv(filedir + "stock_full_py_last.csv", index = False)
 print("export done, start to merge")
 
 df = pd.DataFrame()
@@ -73,7 +77,7 @@ for root, dirs, files in os.walk(filedir):
 cols = list(df)
 cols.insert(0, cols.pop(cols.index("code")))    
 df = df.loc[:,cols]       
-df.to_csv("C:/mystock/py/stock_full_py.csv", index = False)     
+df.to_csv(filedir + "stock_full_py.csv", index = False)     
 print("completed!!!")
 print (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 

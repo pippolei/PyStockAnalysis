@@ -1,6 +1,6 @@
 #coding=gbk
 import os,sys
-sys.path.append("C:/Users/Administrator/git/PyStockAnalysis")
+sys.path.append("C:/git/PyStockAnalysis")
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np

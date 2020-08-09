@@ -9,14 +9,14 @@ pd.set_option('display.max_columns', None)
 pd.options.mode.chained_assignment = None 
 
 
-os.chdir("C:/mystock/py")
+os.chdir("C:/StockAnalysis/py")
 stockitem = pd.read_csv("stock_item.csv", sep = ",", index_col=False)
 stockfull = pd.read_csv("stock_full.csv", sep = ",", index_col=False)
 
-sys.path.append("C:/git/PyAnalysis")
-import lib.stockdatalib as datalib
+sys.path.append("C:/git/PyStockAnalysis/mystock/")
+from lib.stockdatalib import *
 
-formatedData = stockitem['date'].apply(datalib.formatDate)
+formatedData = stockitem['date'].apply(formatDate)
 stockitem.loc[:,'date'] = formatedData
 stockfull.loc[:,'date'] = formatedData
 stockitem.index = formatedData
@@ -29,11 +29,11 @@ diffvalues = []
 
 
 
-code = 's600166'
-a, b, codediff, diff = datalib.getDiffValue(code,g_stockitem,g_stockfull) 
+code = 's600010'
+a, b, codediff, diff = getDiffValue(code,g_stockitem,g_stockfull) 
 #diffvalues.append(diff)    
 for code, group in g_stockitem:
-    a, b, codediff, diff = datalib.getDiffValue(code,g_stockitem,g_stockfull) 
+    a, b, codediff, diff = getDiffValue(code,g_stockitem,g_stockfull) 
     diffvalues.append(diff)
 
 print("Max values:" + str(max(diffvalues)))

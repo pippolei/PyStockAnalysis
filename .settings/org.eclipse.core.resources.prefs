@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//mystock/StockData/0_LoadRawData.py=gbk
+encoding//mystock/StockData/1_CmpData.py=gbk
 encoding//mystock/TrainRule/TrainRule_Parameter.py=gbk
 encoding//mystock/TrainRule/TrainRule_Predict.py=gbk
 encoding//mystock/TrainRule/TrainRule_Train.py=gbk
