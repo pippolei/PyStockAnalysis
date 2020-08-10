@@ -1,5 +1,5 @@
 #coding=gbk
-import os
+import os, math
 import matplotlib
 import numpy as np
 import pandas as pd
@@ -90,13 +90,15 @@ def getDiffValue(code,g_stock1, g_stock2):
     stockitem.set_index('index', inplace=True)
     stockitem_py.set_index('index', inplace=True)
     
-    newdata = getStockFull(stockitem)
+    #newdata = getStockFull(stockitem)
+    newdata = stockitem.fillna(0)
     colsize = stockitem_py.shape[1]
-    data_py = stockitem_py
-    data = newdata.iloc[:,:colsize]
+    data_py = stockitem_py.fillna(0)
+    data = newdata[data_py.columns]
     c = data_py.iloc[:,1:] - data.iloc[:,1:]
+    coldiff = c.iloc[START_ATTRIBUTE:,:].sum()
     diff = sum(c.iloc[START_ATTRIBUTE:,:].sum()) + (data.shape[0] - data_py.shape[0])
-    print(code + ":" + str(diff) + "   size1:" + str(data.shape[0]) + "   size2:" + str(data_py.shape[0]))
+    print(code + " total difference:" + str(diff) + " max diff column: " + abs(coldiff).idxmax() + " and size1:" + str(data.shape[0]) + "   size2:" + str(data_py.shape[0]))
     if data_py.shape[0] != data.shape[0]:
         codediff = codediff + code + " "
     return data, data_py, codediff, diff

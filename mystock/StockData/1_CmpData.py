@@ -11,12 +11,19 @@ pd.set_option('display.max_columns', None)
 pd.options.mode.chained_assignment = None 
 
 
-os.chdir("C:/StockAnalysis/py")
-stockfull = pd.read_csv("stock_full.csv", sep = ",", index_col=False)
-stockfull_py = pd.read_csv("stock_full_py.csv", sep = ",", index_col=False)
+
 
 sys.path.append("C:/git/PyStockAnalysis/mystock/")
 from lib.stockdatalib import *
+
+importfile_path = "C:/StockAnalysis/train2"
+filedir = "C:/StockAnalysis/py/" 
+
+os.chdir(filedir)
+sys.path.append(filedir)
+
+stockfull = pd.read_csv("stock_full.csv", sep = ",", index_col=False)
+stockfull_py = pd.read_csv("stock_full_py.csv", sep = ",", index_col=False)
 
 
 diffvalues = []

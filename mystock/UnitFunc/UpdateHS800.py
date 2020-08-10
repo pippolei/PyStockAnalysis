@@ -40,6 +40,10 @@ zz500 = ['603877.SH', '002946.SZ', '002941.SZ', '002957.SZ', '600917.SH', '60325
 stocklist = hs300 + zz500
 
 
+for root, dirs, files in os.walk(rootdir + "hs300"):
+    for filename in files:
+        os.remove(rootdir + "hs300/" + filename)
+
 for root, dirs, files in os.walk(rootdir + "live2"):
     for filename in files:
         os.remove(rootdir + "live2/" + filename)
@@ -47,7 +51,15 @@ for root, dirs, files in os.walk(rootdir + "live2"):
 for root, dirs, files in os.walk(rootdir + "houfu2"):
     for filename in files:
         os.remove(rootdir + "houfu2/" + filename)
-                
+
+count = 0              
+for code in hs300:
+    count+=1
+    filename = getMarketCode(code)
+    print("Times:" + str(count))
+    mycopyfile(rootdir + "live/" + filename,rootdir + "hs300/" + filename)
+
+
 count = 0
 for code in stocklist:
     count+=1

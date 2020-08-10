@@ -32,22 +32,29 @@ os.chdir(importfile_path)
 for root, dirs, files in os.walk(importfile_path):
     pass
 
-
+startdate = 20110101
 
 df = pd.DataFrame()
 length = len(files)
 curfile = 0;
 for filename in files:
     curfile+=1
+
     starttime = datetime.datetime.now()
     stockitem = pd.read_csv(filename, sep = "\t", skiprows= 2, header=None, encoding='iso-8859-1', index_col=False)
     stockitem.drop(stockitem.tail(1).index, inplace = True)
     stockitem.drop((stockitem.shape[1]-1), axis = 1,inplace = True) #去除最后一列
     stockitem.columns = ["date","start","high", "low","end","volume" ]
-    stockitem.reset_index(inplace=True) # index改为column
+
     stockitem["code"] = "s" + filename[3:9]
+    stockitem["volume"] = stockitem["volume"] / 1000
     stockitem["date"] = stockitem["date"].apply(lambda x: x[0:4]+x[5:7]+x[8:10]).astype(int)
     stockitem = stockitem[(stockitem["high"]>=0.3) & (stockitem["volume"]>=100)]
+    stockitem = stockitem[stockitem["date"] >= startdate]
+    stockitem.reset_index(inplace=True) # 去除以前FILTER掉的行，重新建立index
+    stockitem.drop("index", axis = 1, inplace=True)
+    stockitem.reset_index(inplace=True) # index改为column
+        
     if (validStock(stockitem)):        
         frame = [df, getStockFull(stockitem)]
         df = pd.concat(frame, axis = 0) 
@@ -60,8 +67,8 @@ for filename in files:
         df = pd.DataFrame()
 
 
-
-df.to_csv(filedir + "stock_full_py_last.csv", index = False)
+if (df.shape[0] > 0):
+    df.to_csv(filedir + "stock_full_py_last.csv", index = False)
 print("export done, start to merge")
 
 df = pd.DataFrame()
