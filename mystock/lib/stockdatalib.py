@@ -13,7 +13,7 @@ from sklearn.preprocessing import LabelEncoder
 START_ATTRIBUTE = 130
 START_ANALYSIS = 160
 ATTR_CALC_STARTINDEX = 70
-FLOAT_MIN = 0.0001
+FLOAT_MIN = 0.0000001
 
 def getStockFull(stockdata):
     newdata = stockdata.copy()
@@ -96,8 +96,8 @@ def getDiffValue(code,g_stock1, g_stock2):
     data_py = stockitem_py.fillna(0)
     data = newdata[data_py.columns]
     c = data_py.iloc[:,1:] - data.iloc[:,1:]
-    coldiff = c.iloc[START_ATTRIBUTE:,:].sum()
-    diff = sum(c.iloc[START_ATTRIBUTE:,:].sum()) + (data.shape[0] - data_py.shape[0])
+    coldiff = abs(c.iloc[START_ATTRIBUTE:,:].sum())
+    diff = sum(coldiff) + (data.shape[0] - data_py.shape[0])
     print(code + " total difference:" + str(diff) + " max diff column: " + abs(coldiff).idxmax() + " and size1:" + str(data.shape[0]) + "   size2:" + str(data_py.shape[0]))
     if data_py.shape[0] != data.shape[0]:
         codediff = codediff + code + " "

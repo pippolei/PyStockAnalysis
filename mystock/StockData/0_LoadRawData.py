@@ -16,7 +16,7 @@ pd.options.mode.chained_assignment = None
 sys.path.append("C:/git/PyStockAnalysis/mystock/")
 from lib.stockdatalib import *
 
-importfile_path = "C:/StockAnalysis/train2"
+importfile_path = "C:/StockAnalysis/hs300"
 filedir = "C:/StockAnalysis/py/" 
 
 #待比较的文件列明
@@ -45,11 +45,10 @@ for filename in files:
     stockitem.drop(stockitem.tail(1).index, inplace = True)
     stockitem.drop((stockitem.shape[1]-1), axis = 1,inplace = True) #去除最后一列
     stockitem.columns = ["date","start","high", "low","end","volume" ]
-
     stockitem["code"] = "s" + filename[3:9]
-    stockitem["volume"] = stockitem["volume"] / 1000
     stockitem["date"] = stockitem["date"].apply(lambda x: x[0:4]+x[5:7]+x[8:10]).astype(int)
-    stockitem = stockitem[(stockitem["high"]>=0.3) & (stockitem["volume"]>=100)]
+    stockitem = stockitem[(stockitem["high"]>=0.3) | (stockitem["volume"]>=100)]
+    stockitem["volume"] = stockitem["volume"] / 1000
     stockitem = stockitem[stockitem["date"] >= startdate]
     stockitem.reset_index(inplace=True) # 去除以前FILTER掉的行，重新建立index
     stockitem.drop("index", axis = 1, inplace=True)
