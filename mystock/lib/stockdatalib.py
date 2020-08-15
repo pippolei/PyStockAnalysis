@@ -92,8 +92,8 @@ def getStockFull(stockdata):
     newdata["A10_ABOVE_60"] = (newdata["AVE10"] - newdata["AVE60"]) > FLOAT_MIN
     newdata["A20_ABOVE_60"] = (newdata["AVE20"] - newdata["AVE60"]) > FLOAT_MIN
     
-    newdata["END_FAR_ABOVE_05"] = (end - newdata["AVE5"] * 1.1) > FLOAT_MIN
-    newdata["END_FAR_BELOW_05"] = (end - newdata["AVE5"] * 0.9) < FLOAT_MIN
+    newdata["END_FAR_ABOVE_05"] = (end - newdata["AVE5"] * 1.06) > FLOAT_MIN
+    newdata["END_FAR_BELOW_05"] = (end - newdata["AVE5"] * 0.94) < FLOAT_MIN
     newdata["END_ABOVE_HIGH_60"] = (end - newdata["HIGH60"] * 0.85) < FLOAT_MIN
     newdata["END_BELOW_LOW_60"] = (end - newdata["LOW60"] * 1.35) > FLOAT_MIN
     
@@ -103,8 +103,12 @@ def getStockFull(stockdata):
     newdata["IS_BIG_RIZE"] = newdata["RIZE"] - 0.04 > FLOAT_MIN
     newdata["IS_MEDIUM_RIZE"] = newdata["RIZE"] - 0.02 > FLOAT_MIN
     
+    newdata["RIZE1"] = end < cmpdata * 0.97 
+    newdata["RIZE2"] = (end < cmpdata * 0.99) * (end >= cmpdata * 0.97)
+    newdata["RIZE3"] = (end < cmpdata * 1.01) * (end >= cmpdata * 0.99)
+    newdata["RIZE4"] = (end < cmpdata * 1.03) * (end >= cmpdata * 1.01)
+    newdata["RIZE5"] = end > cmpdata * 1.03
     
-    newdata["RIZE2"] = np.nan_to_num((high - low) / end)
     (newdata["DEF_SELL_SHORT_index"],newdata["DEF_SELL_SHORT_date"],newdata["DEF_SELL_SHORT_price"]) = pd.Series(getDefaultSell(stockdata, 5, 0.05, 0.03))
     (newdata["DEF_SELL_MEDIUM_index"],newdata["DEF_SELL_MEDIUM_date"],newdata["DEF_SELL_MEDIUM_price"]) = getDefaultSell(stockdata, 20, 100, 1)
     (newdata["DEF_SELL_LONG_index"],newdata["DEF_SELL_LONG_date"],newdata["DEF_SELL_LONG_price"]) = getDefaultSell(stockdata, 20, 100, 0.08)
