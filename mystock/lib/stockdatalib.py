@@ -15,6 +15,35 @@ START_ANALYSIS = 160
 ATTR_CALC_STARTINDEX = 70
 FLOAT_MIN = 0.0000001
 
+#从YYYYMMDD转换到YYYYY-MM-DD
+def formatDate(intdate):
+    intdate = str(intdate)
+    return intdate[0:4] + "-" + intdate[4:6] + "-" + intdate[6:8]
+
+def getDefaultSell(stockdata, day, winrate, lossrate):
+    end = stockdata["end"]
+    date = stockdata["date"]
+    index = stockdata["index"]
+    winend = end * (1 + winrate)
+    lossend = end * (1 - lossrate)    
+    
+    newdata = pd.DataFrame()
+    newdata["end0"] = end  
+    for i in range(day):
+        newdata["end"+str(i+1)] = end.shift(-1 - i, fill_value = end.iloc[-1])
+    ifwin = newdata.values > winend.values[:,None] + FLOAT_MIN
+    ifloss = newdata.values + FLOAT_MIN < lossend.values[:,None]
+    cmp_result = (ifwin | ifloss).argmax(axis = 1)
+    cmp_result = np.where(cmp_result==0,day,cmp_result)
+    
+    np_index = np.array(index)
+    sellindex = np_index + cmp_result
+    for j in range(day):
+        sellindex[-1 - j] = np_index[-1]
+    sellprice = end[sellindex]
+    selldate = date[sellindex]    
+    return sellindex, selldate.values, sellprice.values
+
 def getStockFull(stockdata):
     newdata = stockdata.copy()
     end = stockdata["end"]
@@ -22,12 +51,12 @@ def getStockFull(stockdata):
     high = stockdata["high"]
     
     #向下移一个，第一行为空，第二行为原第一行的值
-    cmpdata = stockdata["end"].shift(1)
+    cmpdata = stockdata["end"].shift(1,fill_value = 1)
     #向上移一个，最后一行为空，第一行为原第二行的值 
     cmpdata_low = stockdata["low"].shift(-1, fill_value = 0)
     cmpdata_start = stockdata["start"].shift(-1, fill_value = 100000)
     
-    newdata["RIZE"] = np.nan_to_num((end - cmpdata) / cmpdata)
+    newdata["RIZE"] = (np.nan_to_num((end - cmpdata) / cmpdata)).astype(float)
     newdata["CANBUY"] = (cmpdata_low < end)
     newdata["AVE5"] = ta.MA(np.array(end), 5)  # @UndefinedVariable
     newdata["AVE10"] = ta.MA(np.array(end), 10)  # @UndefinedVariable
@@ -44,6 +73,9 @@ def getStockFull(stockdata):
     newdata["HIGH10"] = ta.MAX(end,10) # @UndefinedVariable
     newdata["HIGH20"] = ta.MAX(end,20) # @UndefinedVariable
     newdata["HIGH60"] = ta.MAX(end,60) # @UndefinedVariable
+    
+    newdata["TR"] = np.max(pd.DataFrame([np.abs(high - cmpdata), high - low, np.abs(cmpdata - low)]))
+    newdata["ATR"] = ta.MA(np.array(newdata["TR"]), 10)
     #newdata["EMA12"] = ta.EMA(end, 12) # @UndefinedVariable
     #newdata["EMA26"] = ta.EMA(end, 26) # @UndefinedVariable
     #newdata["DIF"],newdata["DEA"],nodata  = ta.MACD(end, 12,26,9) # @UndefinedVariable
@@ -104,6 +136,8 @@ def getDiffValue(code,g_stock1, g_stock2):
     return data, data_py, codediff, diff
 
 
+    
+
 def calculateEMA(period, closeArray, emaArray=[]):
     """计算指数移动平均"""
     length = len(closeArray)
@@ -125,44 +159,8 @@ def calculateMACD(closeArray,shortPeriod = 12 ,longPeriod = 26 ,signalPeriod =9)
     macd = 2*(diff-dea)
     return macd,diff,dea 
 
-#从YYYYMMDD转换到YYYYY-MM-DD
-def formatDate(intdate):
-    intdate = str(intdate)
-    return intdate[0:4] + "-" + intdate[4:6] + "-" + intdate[6:8]
 
 
-def validStock(stockitem):  
-    if (stockitem.shape[0] < START_ANALYSIS
-        or stockitem["end"].min() < 0.3        
-        ):
-        ret_value = 0
-    else:
-        ret_value = 1
-    return ret_value
-        
-def getDefaultSell(stockdata, day, winrate, lossrate):
-    end = stockdata["end"]
-    date = stockdata["date"]
-    index = stockdata["index"]
-    winend = end * (1 + winrate)
-    lossend = end * (1 - lossrate)    
-    
-    newdata = pd.DataFrame()
-    newdata["end0"] = end  
-    for i in range(day):
-        newdata["end"+str(i+1)] = end.shift(-1 - i, fill_value = end.iloc[-1])
-    ifwin = newdata.values > winend.values[:,None]
-    ifloss = newdata.values < lossend.values[:,None]
-    cmp_result = (ifwin | ifloss).argmax(axis = 1)
-    cmp_result = np.where(cmp_result==0,day,cmp_result)
-    
-    np_index = np.array(index)
-    sellindex = np_index + cmp_result
-    for j in range(day):
-        sellindex[-1 - j] = np_index[-1]
-    sellprice = end[sellindex]
-    selldate = date[sellindex]    
-    return sellindex, selldate.values, sellprice.values
-    
-    
+
+
 

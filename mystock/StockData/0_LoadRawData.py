@@ -34,6 +34,18 @@ for root, dirs, files in os.walk(importfile_path):
 
 startdate = 20110101
 
+def validStock(stockitem):  
+    if (stockitem.shape[0] < START_ANALYSIS
+        or stockitem["end"].min() < 0.3        
+        ):
+        ret_value = 0
+    else:
+        ret_value = 1
+    return ret_value
+        
+
+    
+    
 df = pd.DataFrame()
 length = len(files)
 curfile = 0;

@@ -36,16 +36,20 @@ codediff = "codelist: "
 #code = 's600166'
 #data_py, data, diff = getDiffValue(code) 
 #diffvalues.append(diff)    
-code = 's600000'
+code = 's600519'
 data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) 
 c = data_py.iloc[:,1:] - data.iloc[:,1:]
 diff = sum(c.iloc[130:,:].sum()) 
+
+codelist = []
 for code, group in g_stockitem:
     data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) 
     diffvalues.append(diff)
+    codelist.append(code)
 
-print("Max values:" + str(max(np.abs(diffvalues))))
-print("Diff lines:" + codediff)
+t = np.abs(diffvalues)
+print("Max values:" + str(t.max()))
+print("Diff lines:" + codelist[(t.argmax())])
 pass
 
 

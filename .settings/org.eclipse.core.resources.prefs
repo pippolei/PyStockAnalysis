@@ -5,7 +5,6 @@ encoding//mystock/TrainRule/TrainRule_Parameter.py=gbk
 encoding//mystock/TrainRule/TrainRule_Predict.py=gbk
 encoding//mystock/TrainRule/TrainRule_Train.py=gbk
 encoding//mystock/UnitFunc/UpdateHS800.py=gbk
-encoding//mystock/drawing/RuleAnalysis.py=gbk
 encoding//mystock/lib/modellib.py=gbk
 encoding//mystock/lib/mylib.py=gbk
 encoding//mystock/lib/stockdatalib.py=gbk
