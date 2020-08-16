@@ -49,6 +49,7 @@ def getStockFull(stockdata):
     end = stockdata["end"]
     low = stockdata["low"]
     high = stockdata["high"]
+    start = stockdata["start"]
     
     #向下移一个，第一行为空，第二行为原第一行的值
     cmpdata = stockdata["end"].shift(1,fill_value = 1)
@@ -56,7 +57,9 @@ def getStockFull(stockdata):
     cmpdata_low = stockdata["low"].shift(-1, fill_value = 0)
     cmpdata_start = stockdata["start"].shift(-1, fill_value = 100000)
     
-    newdata["RIZE"] = (np.nan_to_num((end - cmpdata) / cmpdata)).astype(float)
+    newdata["RIZERATE"] = (np.nan_to_num((end - cmpdata) / cmpdata)).astype(float)
+    #newdata["RIZE_PREEND"] = (end - cmpdata) > FLOAT_MIN
+    #newdata["RIZE_START"] = (end - start) > FLOAT_MIN
     newdata["CANBUY"] = (cmpdata_low < end)
     newdata["AVE5"] = ta.MA(np.array(end), 5)  # @UndefinedVariable
     newdata["AVE10"] = ta.MA(np.array(end), 10)  # @UndefinedVariable
@@ -67,6 +70,7 @@ def getStockFull(stockdata):
     volume = [float(x) for x in stockdata["volume"]]
     newdata["AVE_VOLUME10"] = ta.MA(np.array(volume),10) # @UndefinedVariable  
     newdata["AVE_VOLUME20"] = ta.MA(np.array(volume),20) # @UndefinedVariable  
+    newdata["AVE_VOLUME60"] = ta.MA(np.array(volume),60) # @UndefinedVariable  
     newdata["LOW10"] = ta.MIN(end,10) # @UndefinedVariable
     newdata["LOW20"] = ta.MIN(end,20) # @UndefinedVariable
     newdata["LOW60"] = ta.MIN(end,60) # @UndefinedVariable
@@ -91,6 +95,9 @@ def getStockFull(stockdata):
     newdata["A10_ABOVE_20"] = (newdata["AVE10"] - newdata["AVE20"]) > FLOAT_MIN
     newdata["A10_ABOVE_60"] = (newdata["AVE10"] - newdata["AVE60"]) > FLOAT_MIN
     newdata["A20_ABOVE_60"] = (newdata["AVE20"] - newdata["AVE60"]) > FLOAT_MIN
+    #newdata["A10V_ABOVE_60V"] = (newdata["AVE_VOLUME10"] - newdata["AVE_VOLUME60"] * 1.5) > FLOAT_MIN
+    
+    
     
     newdata["END_FAR_ABOVE_05"] = (end - newdata["AVE5"] * 1.06) > FLOAT_MIN
     newdata["END_FAR_BELOW_05"] = (end - newdata["AVE5"] * 0.94) < FLOAT_MIN
@@ -98,16 +105,18 @@ def getStockFull(stockdata):
     newdata["END_BELOW_LOW_60"] = (end - newdata["LOW60"] * 1.35) > FLOAT_MIN
     
     #       'START_RIZE', 'START_RIZE_BIG', 'IS_BIG_RIZE', 'IS_MEDIUM_RIZE',
-    newdata["START_RIZE"] = (cmpdata_start - end) > FLOAT_MIN
-    newdata["START_RIZE_BIG"] = (cmpdata_start - end * 1.02) > FLOAT_MIN
-    newdata["IS_BIG_RIZE"] = newdata["RIZE"] - 0.04 > FLOAT_MIN
-    newdata["IS_MEDIUM_RIZE"] = newdata["RIZE"] - 0.02 > FLOAT_MIN
+    newdata["START_RIZE"] = (start - cmpdata) > FLOAT_MIN
+    newdata["START_RIZE_BIG"] = (start - cmpdata * 1.02) > FLOAT_MIN
+    newdata["END_RIZE_START"] = (end - start) > FLOAT_MIN
+    
+    newdata["IS_BIG_RIZE"] = newdata["RIZERATE"] - 0.04 > FLOAT_MIN
+    newdata["IS_MEDIUM_RIZE"] = newdata["RIZERATE"] - 0.02 > FLOAT_MIN
     
     newdata["RIZE1"] = end < cmpdata * 0.97 
     newdata["RIZE2"] = (end < cmpdata * 0.99) * (end >= cmpdata * 0.97)
     newdata["RIZE3"] = (end < cmpdata * 1.01) * (end >= cmpdata * 0.99)
     newdata["RIZE4"] = (end < cmpdata * 1.03) * (end >= cmpdata * 1.01)
-    newdata["RIZE5"] = end > cmpdata * 1.03
+    newdata["RIZE5"] = end >= cmpdata * 1.03
     
     (newdata["DEF_SELL_SHORT_index"],newdata["DEF_SELL_SHORT_date"],newdata["DEF_SELL_SHORT_price"]) = pd.Series(getDefaultSell(stockdata, 5, 0.05, 0.03))
     (newdata["DEF_SELL_MEDIUM_index"],newdata["DEF_SELL_MEDIUM_date"],newdata["DEF_SELL_MEDIUM_price"]) = getDefaultSell(stockdata, 20, 100, 1)
