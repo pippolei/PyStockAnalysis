@@ -95,7 +95,7 @@ def getStockFull(stockdata):
     newdata["A10_ABOVE_20"] = (newdata["AVE10"] - newdata["AVE20"]) > FLOAT_MIN
     newdata["A10_ABOVE_60"] = (newdata["AVE10"] - newdata["AVE60"]) > FLOAT_MIN
     newdata["A20_ABOVE_60"] = (newdata["AVE20"] - newdata["AVE60"]) > FLOAT_MIN
-    #newdata["A10V_ABOVE_60V"] = (newdata["AVE_VOLUME10"] - newdata["AVE_VOLUME60"] * 1.5) > FLOAT_MIN
+    newdata["A10V_ABOVE_60V"] = (newdata["AVE_VOLUME10"] - newdata["AVE_VOLUME60"] * 1.5) > FLOAT_MIN
     
     
     
