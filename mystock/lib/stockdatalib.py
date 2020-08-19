@@ -70,10 +70,12 @@ def getStockFull(stockdata):
     volume = [float(x) for x in stockdata["volume"]]
     newdata["AVE_VOLUME10"] = ta.MA(np.array(volume),10) # @UndefinedVariable  
     newdata["AVE_VOLUME20"] = ta.MA(np.array(volume),20) # @UndefinedVariable  
-    newdata["AVE_VOLUME60"] = ta.MA(np.array(volume),60) # @UndefinedVariable  
+    newdata["AVE_VOLUME60"] = ta.MA(np.array(volume),60) # @UndefinedVariable 
+    newdata["LOW5"] = ta.MIN(end,5) # @UndefinedVariable 
     newdata["LOW10"] = ta.MIN(end,10) # @UndefinedVariable
     newdata["LOW20"] = ta.MIN(end,20) # @UndefinedVariable
     newdata["LOW60"] = ta.MIN(end,60) # @UndefinedVariable
+    newdata["HIGH5"] = ta.MAX(end,5) # @UndefinedVariable
     newdata["HIGH10"] = ta.MAX(end,10) # @UndefinedVariable
     newdata["HIGH20"] = ta.MAX(end,20) # @UndefinedVariable
     newdata["HIGH60"] = ta.MAX(end,60) # @UndefinedVariable

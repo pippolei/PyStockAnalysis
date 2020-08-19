@@ -8,3 +8,4 @@ encoding//mystock/UnitFunc/UpdateHS800.py=gbk
 encoding//mystock/lib/modellib.py=gbk
 encoding//mystock/lib/mylib.py=gbk
 encoding//mystock/lib/stockdatalib.py=gbk
+encoding//mystock/strategy/MFactor.py=gbk
