@@ -10,8 +10,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
 
 
-START_ATTRIBUTE = 130
-START_ANALYSIS = 160
+START_ATTRIBUTE = 190
+START_ANALYSIS = 200
 ATTR_CALC_STARTINDEX = 70
 FLOAT_MIN = 0.0000001
 
@@ -75,13 +75,15 @@ def getStockFull(stockdata):
     newdata["LOW10"] = ta.MIN(end,10) # @UndefinedVariable
     newdata["LOW20"] = ta.MIN(end,20) # @UndefinedVariable
     newdata["LOW60"] = ta.MIN(end,60) # @UndefinedVariable
+    newdata["LOW130"] = ta.MIN(end,130) # @UndefinedVariable
     newdata["HIGH5"] = ta.MAX(end,5) # @UndefinedVariable
     newdata["HIGH10"] = ta.MAX(end,10) # @UndefinedVariable
     newdata["HIGH20"] = ta.MAX(end,20) # @UndefinedVariable
     newdata["HIGH60"] = ta.MAX(end,60) # @UndefinedVariable
+    newdata["HIGH130"] = ta.MAX(end,130) # @UndefinedVariable
     
     newdata["TR"] = np.max(pd.DataFrame([np.abs(high - cmpdata), high - low, np.abs(cmpdata - low)]))
-    newdata["ATR"] = ta.MA(np.array(newdata["TR"]), 10)
+    newdata["ATR"] = ta.MA(np.array(newdata["TR"]), 10) # @UndefinedVariable
     #newdata["EMA12"] = ta.EMA(end, 12) # @UndefinedVariable
     #newdata["EMA26"] = ta.EMA(end, 26) # @UndefinedVariable
     #newdata["DIF"],newdata["DEA"],nodata  = ta.MACD(end, 12,26,9) # @UndefinedVariable
@@ -106,6 +108,10 @@ def getStockFull(stockdata):
     newdata["END_ABOVE_HIGH_60"] = (end - newdata["HIGH60"] * 0.85) < FLOAT_MIN
     newdata["END_BELOW_LOW_60"] = (end - newdata["LOW60"] * 1.35) > FLOAT_MIN
     
+    newdata["CROSS_AVE_5"] = (end - newdata["AVE5"] > FLOAT_MIN) & (cmpdata - newdata["AVE5"] < FLOAT_MIN)
+    newdata["CROSS_AVE_10"] = (end - newdata["AVE10"] > FLOAT_MIN) & (cmpdata - newdata["AVE10"] < FLOAT_MIN)
+    newdata["CROSS_AVE_20"] = (end - newdata["AVE20"] > FLOAT_MIN) & (cmpdata - newdata["AVE20"] < FLOAT_MIN)
+    newdata["CROSS_AVE_60"] = (end - newdata["AVE60"] > FLOAT_MIN) & (cmpdata - newdata["AVE60"] < FLOAT_MIN)
     #       'START_RIZE', 'START_RIZE_BIG', 'IS_BIG_RIZE', 'IS_MEDIUM_RIZE',
     newdata["START_RIZE"] = (start - cmpdata) > FLOAT_MIN
     newdata["START_RIZE_BIG"] = (start - cmpdata * 1.02) > FLOAT_MIN

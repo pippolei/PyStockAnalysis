@@ -36,7 +36,7 @@ codediff = "codelist: "
 #code = 's600166'
 #data_py, data, diff = getDiffValue(code) 
 #diffvalues.append(diff)    
-code = 's603799'
+code = 's600000'
 data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) 
 c = data_py.iloc[:,1:] - data.iloc[:,1:]
 diff = sum(c.iloc[130:,:].sum()) 
