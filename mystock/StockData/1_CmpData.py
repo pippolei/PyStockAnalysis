@@ -37,13 +37,13 @@ codediff = "codelist: "
 #data_py, data, diff = getDiffValue(code) 
 #diffvalues.append(diff)    
 code = 's600000'
-data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) 
+data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) # @UndefinedVariable
 c = data_py.iloc[:,1:] - data.iloc[:,1:]
 diff = sum(c.iloc[130:,:].sum()) 
 
 codelist = []
 for code, group in g_stockitem:
-    data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) 
+    data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) # @UndefinedVariable
     diffvalues.append(diff)
     codelist.append(code)
 

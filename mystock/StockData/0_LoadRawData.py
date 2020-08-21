@@ -35,7 +35,7 @@ for root, dirs, files in os.walk(importfile_path):
 startdate = 20110101
 
 def validStock(stockitem):  
-    if (stockitem.shape[0] < START_ANALYSIS
+    if (stockitem.shape[0] < START_ANALYSIS    # @UndefinedVariable
         or stockitem["end"].min() < 0.3        
         ):
         ret_value = 0
@@ -67,7 +67,7 @@ for filename in files:
     stockitem.reset_index(inplace=True) # index¸ÄÎªcolumn
         
     if (validStock(stockitem)):        
-        frame = [df, getStockFull(stockitem)]
+        frame = [df, getStockFull(stockitem)]      # @UndefinedVariable
         df = pd.concat(frame, axis = 0) 
     endtime = datetime.datetime.now()
     print (endtime.strftime("%Y-%m-%d %H:%M:%S") + ":  " + "s" + filename[3:9] + "  " + str(curfile) + "/" + str(length) + "-- Time passed " + str((endtime - starttime).total_seconds()))
