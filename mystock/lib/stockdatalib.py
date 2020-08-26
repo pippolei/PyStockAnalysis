@@ -55,12 +55,16 @@ def getStockFull(stockdata):
     cmpdata = stockdata["end"].shift(1,fill_value = 1)
     #向上移一个，最后一行为空，第一行为原第二行的值 
     cmpdata_low = stockdata["low"].shift(-1, fill_value = 0)
-    cmpdata_start = stockdata["start"].shift(-1, fill_value = 100000)
+    cmpdata_start = stockdata["start"].shift(-1, fill_value = end.iloc[-1])
     
     newdata["RIZERATE"] = (np.nan_to_num((end - cmpdata) / cmpdata)).astype(float)
     #newdata["RIZE_PREEND"] = (end - cmpdata) > FLOAT_MIN
     #newdata["RIZE_START"] = (end - start) > FLOAT_MIN
-    newdata["CANBUY"] = (cmpdata_low < end)
+    #newdata["CANBUY"] = (cmpdata_low < end)
+    newdata["BUYPRICE1"] = end
+    newdata["BUYPRICE2"] = cmpdata_start
+    newdata["BUYPRICE3"] = end * 0.98
+    newdata["BUYPRICE4"] = end * 0.99
     newdata["AVE5"] = ta.MA(np.array(end), 5)  # @UndefinedVariable
     newdata["AVE10"] = ta.MA(np.array(end), 10)  # @UndefinedVariable
     newdata["AVE13"] = ta.MA(np.array(end), 13)  # @UndefinedVariable

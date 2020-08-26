@@ -16,7 +16,7 @@ pd.options.mode.chained_assignment = None
 sys.path.append("C:/git/PyStockAnalysis/mystock/")
 from lib.stockdatalib import *
 
-importfile_path = "C:/StockAnalysis/train2"
+
 filedir = "C:/StockAnalysis/py/" 
 
 os.chdir(filedir)
@@ -36,7 +36,7 @@ codediff = "codelist: "
 #code = 's600166'
 #data_py, data, diff = getDiffValue(code) 
 #diffvalues.append(diff)    
-code = 's600000'
+code = 's002044'
 data, data_py, codediff, diff = getDiffValue(code,g_stockitem,g_stockitem_py) # @UndefinedVariable
 c = data_py.iloc[:,1:] - data.iloc[:,1:]
 diff = sum(c.iloc[130:,:].sum()) 
