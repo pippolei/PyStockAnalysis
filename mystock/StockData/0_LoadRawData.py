@@ -16,7 +16,8 @@ pd.options.mode.chained_assignment = None
 sys.path.append("C:/git/PyStockAnalysis/mystock/")
 from lib.stockdatalib import *
 
-importfile_path = "C:/StockAnalysis/test"
+database = "train2"
+importfile_path = "C:/StockAnalysis/" + str(database)
 filedir = "C:/StockAnalysis/py/" 
 
 #待比较的文件列明
@@ -96,7 +97,7 @@ cols = list(df)
 cols.insert(0, cols.pop(cols.index("code")))    
 df = df.loc[:,cols]       
 df.to_csv(filedir + "stock_full_py.csv", index = False)     
-df.to_csv("C:/StockAnalysis/log/stock_full_py.txt", index = False, sep = '\t', header = 0)     
+df.to_csv(filedir + "db_stock_full_py"+str(database)+".txt", index = False, sep = '\t', header = 0)     
 print("completed!!!")
 print (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
