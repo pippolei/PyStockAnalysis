@@ -16,12 +16,12 @@ pd.options.mode.chained_assignment = None
 sys.path.append("C:/git/PyStockAnalysis/mystock/")
 from lib.stockdatalib import *
 
-database = "train2"
+database = "train3"
 importfile_path = "C:/StockAnalysis/" + str(database)
 filedir = "C:/StockAnalysis/py/" 
 
 #待比较的文件列明
-stockfull = pd.read_csv(filedir + "stock_full.csv", sep = ",", nrows = 10, index_col=False)
+#stockfull = pd.read_csv(filedir + "stock_full.csv", sep = ",", nrows = 10, index_col=False)
 
 for root, dirs, files in os.walk(filedir):
     for file in files:
