@@ -97,7 +97,7 @@ cols = list(df)
 cols.insert(0, cols.pop(cols.index("code")))    
 df = df.loc[:,cols]       
 df.to_csv(filedir + "stock_full_py.csv", index = False)     
-df.to_csv(filedir + "db_stock_full_py"+str(database)+".txt", index = False, sep = '\t', header = 0)     
+df.to_csv(filedir + "stock_full_db_"+str(database)+".txt", index = False, sep = '\t', header = 0)     
 print("completed!!!")
 print (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
