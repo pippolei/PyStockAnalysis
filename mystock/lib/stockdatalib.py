@@ -129,10 +129,10 @@ def getStockFull(stockdata):
     newdata["RIZE4"] = ((end < cmpdata * 1.03) * (end >= cmpdata * 1.01)).astype(int)
     newdata["RIZE5"] = (end >= cmpdata * 1.03).astype(int)
     
-    (newdata["DEF_SELL_SHORT_index"],newdata["DEF_SELL_SHORT_date"],newdata["DEF_SELL_SHORT_price"]) = pd.Series(getDefaultSell(stockdata, 5, 0.05, 0.03))
-    (newdata["DEF_SELL_MEDIUM_index"],newdata["DEF_SELL_MEDIUM_date"],newdata["DEF_SELL_MEDIUM_price"]) = getDefaultSell(stockdata, 20, 100, 1)
-    (newdata["DEF_SELL_LONG_index"],newdata["DEF_SELL_LONG_date"],newdata["DEF_SELL_LONG_price"]) = getDefaultSell(stockdata, 20, 100, 0.08)
-    (newdata["DEF_SELL_END_index"],newdata["DEF_SELL_END_date"],newdata["DEF_SELL_END_price"]) = getDefaultSell(stockdata, 40, 100, 1)
+    (newdata["DEF_SELL_SHORT_index"],newdata["DEF_SELL_SHORT_date"],newdata["DEF_SELL_SHORT_price"]) = pd.Series(getDefaultSell(stockdata, 20, 100, 1))
+    (newdata["DEF_SELL_MEDIUM_index"],newdata["DEF_SELL_MEDIUM_date"],newdata["DEF_SELL_MEDIUM_price"]) = getDefaultSell(stockdata, 20, 100, 0.08)
+    (newdata["DEF_SELL_LONG_index"],newdata["DEF_SELL_LONG_date"],newdata["DEF_SELL_LONG_price"]) = getDefaultSell(stockdata, 40, 100, 1)
+    (newdata["DEF_SELL_END_index"],newdata["DEF_SELL_END_date"],newdata["DEF_SELL_END_price"]) = getDefaultSell(stockdata, 40, 100, 0.08)
 
     newdata = newdata.fillna(0)
     return newdata
