@@ -24,6 +24,7 @@ def getDefaultSell(stockdata, day, winrate, lossrate):
     end = stockdata["end"]
     date = stockdata["date"]
     index = stockdata["index"]
+    start = stockdata["start"]
     winend = end * (1 + winrate)
     lossend = end * (1 - lossrate)    
     
@@ -40,7 +41,7 @@ def getDefaultSell(stockdata, day, winrate, lossrate):
     sellindex = np_index + cmp_result
     for j in range(day):
         sellindex[-1 - j] = np_index[-1]
-    sellprice = end[sellindex]
+    sellprice = start[sellindex + 1] if sellindex < len(start) else end[sellindex]
     selldate = date[sellindex]    
     return sellindex, selldate.values, sellprice.values
 
