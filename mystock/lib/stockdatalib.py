@@ -34,14 +34,16 @@ def getDefaultSell(stockdata, day, winrate, lossrate):
         newdata["end"+str(i+1)] = end.shift(-1 - i, fill_value = end.iloc[-1])
     ifwin = newdata.values > winend.values[:,None] + FLOAT_MIN
     ifloss = newdata.values + FLOAT_MIN < lossend.values[:,None]
+    #argmax 第一个为 真的
+    #只要有一个止赢或者止损就为真
     cmp_result = (ifwin | ifloss).argmax(axis = 1)
-    cmp_result = np.where(cmp_result==0,day,cmp_result)
+    cmp_result = np.where(cmp_result==0,day,cmp_result) #np.where 如果满足条件，用 day替换，不然就保持原值 
     
     np_index = np.array(index)
     sellindex = np_index + cmp_result
-    for j in range(day):
+    for j in range(day):  #最后day的值全部都用最后一天代替
         sellindex[-1 - j] = np_index[-1]
-    sellprice = start[sellindex + 1] if sellindex < len(start) else end[sellindex]
+    sellprice = pd.Series(sellindex).apply(lambda x: start[x] if x < len(start) - day else end[x])
     selldate = date[sellindex]    
     return sellindex, selldate.values, sellprice.values
 

@@ -16,7 +16,7 @@ pd.options.mode.chained_assignment = None
 sys.path.append("C:/git/PyStockAnalysis/mystock/")
 from lib.stockdatalib import *
 
-database = "train2"
+database = "test"
 importfile_path = "C:/StockAnalysis/" + str(database)
 filedir = "C:/StockAnalysis/py/" 
 
