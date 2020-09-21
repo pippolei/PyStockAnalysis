@@ -43,7 +43,7 @@ def getDefaultSell(stockdata, day, winrate, lossrate):
     sellindex = np_index + cmp_result
     for j in range(day):  #最后day的值全部都用最后一天代替
         sellindex[-1 - j] = np_index[-1]
-    sellprice = pd.Series(sellindex).apply(lambda x: start[x] if x < len(start) - day else end[x])
+    sellprice = pd.Series(sellindex).apply(lambda x: start[x + 1] if x < len(start) - 1 else end[x])
     selldate = date[sellindex]    
     return sellindex, selldate.values, sellprice.values
 
@@ -154,7 +154,7 @@ def getDiffValue(code,g_stock1, g_stock2):
     colsize = stockitem_py.shape[1]
     data_py = stockitem_py.fillna(0)
     data = newdata[data_py.columns]
-    c = data_py.iloc[:,1:] - data.iloc[:,1:]
+    c = data_py.iloc[:,1:] - data.iloc[:,1:] #a = data[["DEF_SELL_SHORT_date","DEF_SELL_SHORT_price"]][START_ATTRIBUTE:]
     coldiff = abs(c.iloc[START_ATTRIBUTE:,:].sum())
     diff = sum(coldiff) + (data.shape[0] - data_py.shape[0])
     print(code + " total difference:" + str(diff) + " max diff column: " + abs(coldiff).idxmax() + " and size1:" + str(data.shape[0]) + "   size2:" + str(data_py.shape[0]))

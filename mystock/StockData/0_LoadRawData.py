@@ -16,7 +16,7 @@ pd.options.mode.chained_assignment = None
 sys.path.append("C:/git/PyStockAnalysis/mystock/")
 from lib.stockdatalib import *
 
-database = "test"
+database = "live2"
 importfile_path = "C:/StockAnalysis/" + str(database)
 filedir = "C:/StockAnalysis/py/" 
 
@@ -33,7 +33,7 @@ os.chdir(importfile_path)
 for root, dirs, files in os.walk(importfile_path):
     pass
 
-startdate = 20110101
+startdate = 20160101
 
 def validStock(stockitem):  
     if (stockitem.shape[0] < START_ANALYSIS    # @UndefinedVariable
