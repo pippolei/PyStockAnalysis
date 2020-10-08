@@ -33,7 +33,7 @@ os.chdir(importfile_path)
 for root, dirs, files in os.walk(importfile_path):
     pass
 
-startdate = 20160101
+startdate = 20170101
 
 def validStock(stockitem):  
     if (stockitem.shape[0] < START_ANALYSIS    # @UndefinedVariable
