@@ -17,10 +17,10 @@ def handlebar(ContextInfo):
     
     if (nowDate == 20201016):
         code = '600109.SH'
-        close = ContextInfo.get_history_data(20,'1d','close',1)
-        open = ContextInfo.get_history_data(20,'1d','open',1)
-        high = ContextInfo.get_history_data(20,'1d','high',1)
-        low = ContextInfo.get_history_data(20,'1d','low',1)
+        close = ContextInfo.get_history_data(20,'1d','close',1, False)
+        open = ContextInfo.get_history_data(20,'1d','open',1, False)
+        high = ContextInfo.get_history_data(20,'1d','high',1, False)
+        low = ContextInfo.get_history_data(20,'1d','low',1, False)
         #print(price)
         print(close[code])
         print(open[code])

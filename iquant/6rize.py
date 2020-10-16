@@ -166,8 +166,8 @@ def doSell(ContextInfo, sellKey, sellprice):
 
 
 def score(ContextInfo, buykey):
-    data_close = ContextInfo.get_history_data(3,'1d','close',1)
-    data_open = ContextInfo.get_history_data(3,'1d','open',1)
+    data_close = ContextInfo.get_history_data(3,'1d','close',1, False)
+    data_open = ContextInfo.get_history_data(3,'1d','open',1, False)
     return (data_open[buykey][-2] / data_close[buykey][-3]) - 1;
 
 def orderBuyKeys(ContextInfo, buykeys):
@@ -221,8 +221,8 @@ def handlebar(ContextInfo):
     logging.debug(getKeyFromDict(buys,1))
     logging.debug("Sells")
     logging.debug(getKeyFromDict(sells,1))
-    price = ContextInfo.get_history_data(2,'1d','close',1)
-    price_open = ContextInfo.get_history_data(2,'1d','open',1)
+    price = ContextInfo.get_history_data(2,'1d','close',1, False)
+    price_open = ContextInfo.get_history_data(2,'1d','open',1, False)
     order = {}
     for k in list(sells.keys()):
         if (sells[k] > 0):
@@ -248,13 +248,12 @@ def signal(ContextInfo, day):
     buy = {i:0 for i in ContextInfo.s}
     sell = {i:0 for i in ContextInfo.s}
 
-    data_close = ContextInfo.get_history_data(22,'1d','close',1)
-    data_open = ContextInfo.get_history_data(22,'1d','open',1)
-    data_close_pre = ContextInfo.get_history_data(2,'1d','close',1)
-    data_close60 = ContextInfo.get_history_data(200,'1d','close',1)
-    #data_open_pre = ContextInfo.get_history_data(2,'1d','open',1)
-    data_low_pre = ContextInfo.get_history_data(2,'1d','low',1)
-    data_high_pre = ContextInfo.get_history_data(2,'1d','high',1)
+    data_close = ContextInfo.get_history_data(22,'1d','close',1,False)
+    data_open = ContextInfo.get_history_data(22,'1d','open',1,False)
+    data_close_pre = ContextInfo.get_history_data(2,'1d','close',1,False)
+    data_close60 = ContextInfo.get_history_data(200,'1d','close',1,False)
+    data_low_pre = ContextInfo.get_history_data(2,'1d','low',1,False)
+    data_high_pre = ContextInfo.get_history_data(2,'1d','high',1,False)
     
     #print data_high
     #print data_close
