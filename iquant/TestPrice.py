@@ -15,10 +15,17 @@ def handlebar(ContextInfo):
     d = ContextInfo.barpos
     nowDate = int(timetag_to_datetime(ContextInfo.get_bar_timetag(d),'%Y%m%d'))
     
-    if (nowDate == 20170104):
-        price = ContextInfo.get_history_data(2,'1d','close',2)
+    if (nowDate == 20201016):
+        code = '600109.SH'
+        close = ContextInfo.get_history_data(20,'1d','close',1)
+        open = ContextInfo.get_history_data(20,'1d','open',1)
+        high = ContextInfo.get_history_data(20,'1d','high',1)
+        low = ContextInfo.get_history_data(20,'1d','low',1)
         #print(price)
-        print(price['000975.SZ'])
+        print(close[code])
+        print(open[code])
+        print(high[code])
+        print(low[code])
         #期望前复权10.53
         #期望后复权15.46
     else:
