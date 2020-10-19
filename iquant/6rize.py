@@ -198,9 +198,13 @@ def handlebar(ContextInfo):
     #benchDate = int(20200914)
     
     if (nowDate > ContextInfo.predate):
+        if (nowDate // 10000  > ContextInfo.predate // 10000):
+            printBoth("Come into date " + str(nowDate))
         ContextInfo.dateindex +=1
         ContextInfo.dateDict[nowDate] = ContextInfo.dateindex
         ContextInfo.predate = nowDate
+        
+        
         logging.info("******************************************************************************************")
         logging.info("Add date index with date " + str(nowDate) + " and index = " + str(ContextInfo.dateindex))
         logging.debug("barpos:   " + str(d) + " and dateindex " + str(ContextInfo.dateDict[nowDate]) + " and nowdate " + str(nowDate) + " and benchDate " + str(benchDate))
