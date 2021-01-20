@@ -1,7 +1,4 @@
 eclipse.preferences.version=1
-encoding//iquant/6rize.py=gbk
-encoding//iquant/TestPrice.py=gbk
-encoding//iquant/objlist.py=gbk
 encoding//mystock/RuleData/RuleScore.py=gbk
 encoding//mystock/StockData/0_UpdateLive.py=gbk
 encoding//mystock/StockData/0_UpdateTrain.py=gbk
