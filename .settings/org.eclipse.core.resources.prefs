@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//TuShare/dapan/Dapan_Analysis.py=gbk
 encoding//mystock/RuleData/RuleScore.py=gbk
 encoding//mystock/StockData/0_UpdateLive.py=gbk
 encoding//mystock/StockData/0_UpdateTrain.py=gbk
